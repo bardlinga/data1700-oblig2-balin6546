@@ -79,6 +79,7 @@ function kjopBillett(){
     if (validerSkjema()){
         let billett = lagNyBillett();
         billettArray.push(billett);
+        $.post("/lagre", billett); //prøver å sende billettatributtar til server, usikker på om funkar
         printBillettArray();
         document.getElementById('bestillingsskjema').reset();
     }
