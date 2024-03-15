@@ -13,13 +13,12 @@ public class BillettController {
 
     public final List<Billett> alleBilletter = new ArrayList<>();
 
-    @PostMapping("/lagre")
+    @PostMapping("/lagreBillett")
     public void lagreBillett(Billett innBillett) {
         alleBilletter.add(innBillett);
-        System.out.println(alleBilletter); // only for debug
     }
 
-    @GetMapping("/hentAlle")
+    @GetMapping("/hentAlleBilletter")
     public List<Billett> hentAlle() {
         return alleBilletter;
     }

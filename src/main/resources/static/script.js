@@ -75,11 +75,24 @@ function validerSkjema() {
     return !inputSjekkArray.includes(false);
 }
 
+function sendBillettTilServer(billettInn){
+    console.log("trying to make JSON ticket");
+    let billett = {
+        "film" : billettInn.film,
+        "antall" : billettInn.antall,
+        "fornavn" : billettInn.fornavn,
+        "etternavn" : billettInn.etternavn,
+        "telefonnr" : billettInn.telefonnr,
+        "epost" : billettInn.epost
+    }
+    $.post("/lagreBillett", billett);
+}
+
 function kjopBillett(){
     if (validerSkjema()){
         let billett = lagNyBillett();
         billettArray.push(billett);
-        $.post("/lagre", billett); //prøver å sende billettatributtar til server, usikker på om funkar
+        sendBillettTilServer(billett);
         printBillettArray();
         document.getElementById('bestillingsskjema').reset();
     }
