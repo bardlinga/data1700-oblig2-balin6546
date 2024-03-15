@@ -46,6 +46,8 @@ $(document).ready(function () {
     $('#etternavn').change(function(){validerInput("etternavn", regExp.navn, feilmelding.navn)});
     $('#telefonnr').change(function(){validerInput("telefonnr", regExp.telefonnr, feilmelding.telefonnr)});
     $('#epost').change(function(){validerInput("epost", regExp.epost, feilmelding.epost)});
+
+    $('#fyllSkjemaKnapp').click(function(){fyllSkjema()});
 });
 
 // ticket updating and storing functions ----------------------------------------------------------
@@ -75,11 +77,25 @@ function validerSkjema() {
     return !inputSjekkArray.includes(false);
 }
 
+function sendBillettTilServer(billettInn){
+    console.log("trying to make JSON ticket");
+    let billett = {
+        "film" : billettInn.film,
+        "antall" : billettInn.antall,
+        "fornavn" : billettInn.fornavn,
+        "etternavn" : billettInn.etternavn,
+        "telefonnr" : billettInn.telefonnr,
+        "epost" : billettInn.epost
+    }
+    $.post("/lagreBillett", billett);
+}
+
 function kjopBillett(){
     if (validerSkjema()){
         let billett = lagNyBillett();
         billettArray.push(billett);
-        $.post("/lagre", billett); //prøver å sende billettatributtar til server, usikker på om funkar
+        console.log(billett);
+        sendBillettTilServer(billett);
         printBillettArray();
         document.getElementById('bestillingsskjema').reset();
     }
@@ -111,4 +127,13 @@ function printBillettArray() {
         );
     }
     $('#billettListe').html(printTable);
+}
+
+function fyllSkjema(){
+    $('#film').val("Lord of the Shrimp");
+    $('#antall').val("1");
+    $('#fornavn').val("abc");
+    $('#etternavn').val("def");
+    $('#telefonnr').val("123");
+    $('#epost').val("abc@def");
 }
