@@ -57,20 +57,6 @@ function lagNyBillett(){
     };
 }
 
-function sendBillettTilServer(billettInn){
-    let billett = {
-        "film" : billettInn.film,
-        "antall" : billettInn.antall,
-        "fornavn" : billettInn.fornavn,
-        "etternavn" : billettInn.etternavn,
-        "telefonnr" : billettInn.telefonnr,
-        "epost" : billettInn.epost
-    }
-    $.post("/lagreBillett", billett);
-}
-// main functions ---------------------------------------------------------------------------------
-
-
 function validerSkjema() {
     let inputSjekkArray = [
         validerInput("film", regExp.film, feilmelding.film),
@@ -86,7 +72,8 @@ function validerSkjema() {
 function kjopBillett(){
     if (validerSkjema()){
         let billett = lagNyBillett();
-        sendBillettTilServer(billett);
+        console.log(billett);
+        $.post("/lagreBillett", billett);
         printBillettArray();
         document.getElementById('bestillingsskjema').reset();
     }
@@ -102,6 +89,7 @@ function slettAlleBilletter() {
 function printBillettArray() {
 
     let billettArray = $.get("/hentAlleBilletter");
+    console.log(billettArray);
     let printTable = (
         "<tr>" +
         "<th>Film</th><th>Antall</th>" +
@@ -109,6 +97,7 @@ function printBillettArray() {
         "<th>Telefonnr</th><th>Epost</th>" +
         "</tr>"
     );
+    /*
     for (let i of billettArray) {
         printTable += (
             "<tr>" +
@@ -119,6 +108,8 @@ function printBillettArray() {
         );
     }
     $('#billettListe').html(printTable);
+
+     */
 }
 
 function fyllSkjema(){
