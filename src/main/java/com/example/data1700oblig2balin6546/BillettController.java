@@ -15,6 +15,7 @@ public class BillettController {
 
     @PostMapping("/lagreBillett")
     public void lagreBillett(Billett innBillett) {
+        System.out.println("Prøvar å motta billett fra frontend");
         alleBilletter.add(innBillett);
     }
 

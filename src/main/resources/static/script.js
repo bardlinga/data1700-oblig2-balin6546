@@ -1,7 +1,3 @@
-// empty array on init ----------------------------------------------------------------------------
-
-let billettArray = [];
-
 // error message functions ------------------------------------------------------------------------
 
 const feilmelding = {
@@ -37,8 +33,6 @@ function validerInput(id, regExp, feilmelding) {
     return inputGyldig;
 }
 
-// onchange validation calls ----------------------------------------------------------------------
-
 $(document).ready(function () {
     $('#film').change(function() {validerInput("film", regExp.film, feilmelding.film)});
     $('#antall').change(function() {validerInput("antall", regExp.antall, feilmelding.antall)});
@@ -50,7 +44,7 @@ $(document).ready(function () {
     $('#fyllSkjemaKnapp').click(function(){fyllSkjema()});
 });
 
-// ticket updating and storing functions ----------------------------------------------------------
+// ticket creation functions ----------------------------------------------------------
 
 function lagNyBillett(){
     return {
@@ -63,7 +57,19 @@ function lagNyBillett(){
     };
 }
 
+function sendBillettTilServer(billettInn){
+    let billett = {
+        "film" : billettInn.film,
+        "antall" : billettInn.antall,
+        "fornavn" : billettInn.fornavn,
+        "etternavn" : billettInn.etternavn,
+        "telefonnr" : billettInn.telefonnr,
+        "epost" : billettInn.epost
+    }
+    $.post("/lagreBillett", billett);
+}
 // main functions ---------------------------------------------------------------------------------
+
 
 function validerSkjema() {
     let inputSjekkArray = [
@@ -77,24 +83,9 @@ function validerSkjema() {
     return !inputSjekkArray.includes(false);
 }
 
-function sendBillettTilServer(billettInn){
-    console.log("trying to make JSON ticket");
-    let billett = {
-        "film" : billettInn.film,
-        "antall" : billettInn.antall,
-        "fornavn" : billettInn.fornavn,
-        "etternavn" : billettInn.etternavn,
-        "telefonnr" : billettInn.telefonnr,
-        "epost" : billettInn.epost
-    }
-    $.post("/lagreBillett", billett);
-}
-
 function kjopBillett(){
     if (validerSkjema()){
         let billett = lagNyBillett();
-        billettArray.push(billett);
-        console.log(billett);
         sendBillettTilServer(billett);
         printBillettArray();
         document.getElementById('bestillingsskjema').reset();
@@ -102,7 +93,6 @@ function kjopBillett(){
 }
 
 function slettAlleBilletter() {
-    billettArray = [];
     $('#billettListe').html("");
 }
 
@@ -110,6 +100,7 @@ function slettAlleBilletter() {
 
 function printBillettArray() {
 
+    let billettArray = $.get("/hentAlleBilletter");
     let printTable = (
         "<tr>" +
         "<th>Film</th><th>Antall</th>" +
