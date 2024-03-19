@@ -93,7 +93,8 @@ function kjopBillett(){
 }
 
 function slettAlleBilletter() {
-    $('#billettListe').html("");
+    $.post("slettAlleBilletter");
+    printBillettArray();
 }
 
 // ticket array display functions -----------------------------------------------------------------

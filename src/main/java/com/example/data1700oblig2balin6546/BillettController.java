@@ -15,12 +15,17 @@ public class BillettController {
 
     @PostMapping("/lagreBillett")
     public void lagreBillett(Billett innBillett) {
-        System.out.println("Prøvar å motta billett fra frontend");
         alleBilletter.add(innBillett);
+        System.out.println(alleBilletter);
     }
 
     @GetMapping("/hentAlleBilletter")
     public List<Billett> hentAlle() {
         return alleBilletter;
+    }
+
+    @PostMapping("/slettAlleBilletter")
+    public void slettAlleBilletter() {
+        alleBilletter.clear();
     }
 }
