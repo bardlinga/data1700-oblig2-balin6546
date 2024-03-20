@@ -80,36 +80,32 @@ function kjopBillett(){
 }
 
 function slettAlleBilletter() {
-    $.post("slettAlleBilletter");
+    $.post("/slettAlleBilletter");
     printBillettArray();
 }
 
 // ticket array display functions -----------------------------------------------------------------
 
 function printBillettArray() {
-
-    let billettArray = $.get("/hentAlleBilletter");
-    console.log(billettArray);
-    let printTable = (
-        "<tr>" +
-        "<th>Film</th><th>Antall</th>" +
-        "<th>Navn</th><th>Etternavn</th>" +
-        "<th>Telefonnr</th><th>Epost</th>" +
-        "</tr>"
-    );
-    /*
-    for (let i of billettArray) {
-        printTable += (
+    $.get("/hentAlleBilletter", function(billettArray){
+        let printTable = (
             "<tr>" +
-            "<td>"+i.film+"</td><td>"+i.antall+"</td>" +
-            "<td>"+i.fornavn+"</td><td>"+i.etternavn+"</td>" +
-            "<td>"+i.telefonnr+"</td><td>"+i.epost+"</td>" +
+            "<th>Film</th><th>Antall</th>" +
+            "<th>Navn</th><th>Etternavn</th>" +
+            "<th>Telefonnr</th><th>Epost</th>" +
             "</tr>"
         );
-    }
-    $('#billettListe').html(printTable);
-
-     */
+        for (let i of billettArray) {
+            printTable += (
+                "<tr>" +
+                "<td>"+i.film+"</td><td>"+i.antall+"</td>" +
+                "<td>"+i.fornavn+"</td><td>"+i.etternavn+"</td>" +
+                "<td>"+i.telefonnr+"</td><td>"+i.epost+"</td>" +
+                "</tr>"
+            );
+        }
+        $('#billettListe').html(printTable);
+    })
 }
 
 function fyllSkjema(){
