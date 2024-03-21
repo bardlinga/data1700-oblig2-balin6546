@@ -16,7 +16,6 @@ public class BillettController {
     @PostMapping("/lagreBillett")
     public void lagreBillett(Billett innBillett) {
         alleBilletter.add(innBillett);
-        System.out.println(alleBilletter);
     }
 
     @GetMapping("/hentAlleBilletter")

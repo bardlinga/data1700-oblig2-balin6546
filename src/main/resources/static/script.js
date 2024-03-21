@@ -23,7 +23,7 @@ const regExp = {
     antall: /^[1-9][0-9]?$/,
     navn: /^[^0-9]+$/,
     telefonnr: /^[0-9]+$/,
-    epost: /^([a-å]?[0-9]?)+@([a-å]?[0-9]?)+.[a-å]+/ //probably horrible regexp
+    epost: /^([a-å]?[0-9]?)+@([a-å]?[0-9]?)+.[a-å]+/ //probably horrible regex
 }
 
 function validerInput(id, regExp, feilmelding) {
@@ -72,7 +72,6 @@ function validerSkjema() {
 function kjopBillett(){
     if (validerSkjema()){
         let billett = lagNyBillett();
-        console.log(billett);
         $.post("/lagreBillett", billett);
         printBillettArray();
         document.getElementById('bestillingsskjema').reset();
