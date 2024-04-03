@@ -1,3 +1,19 @@
+$(document).ready(function(){
+    hentAlleFilmer();
+});
+function hentAlleFilmer() {
+    $.get("/hentFilmListe", function(filmer) {
+        populerFilmDropdown(filmer);
+    });
+}
+function populerFilmDropdown(filmer){
+    let ut = "";
+    for(const film of filmer){
+        ut+="<option value='"+film.tittel+"'>"+film.tittel+"</option>";
+    }
+    $("#film").html(ut);
+}
+
 // error message functions ------------------------------------------------------------------------
 
 const feilmelding = {
@@ -72,8 +88,10 @@ function validerSkjema() {
 function kjopBillett(){
     if (validerSkjema()){
         let billett = lagNyBillett();
-        $.post("/lagreBillett", billett);
-        printBillettArray();
+        $.post("/lagreBillett", billett, function(){
+            printBillettArray()
+            ;}
+        );
         document.getElementById('bestillingsskjema').reset();
     }
 }
@@ -94,7 +112,7 @@ function printBillettArray() {
             "<th>Telefonnr</th><th>Epost</th>" +
             "</tr>"
         );
-        for (let i of billettArray) {
+        for (const i of billettArray) {
             printTable += (
                 "<tr>" +
                 "<td>"+i.film+"</td><td>"+i.antall+"</td>" +
